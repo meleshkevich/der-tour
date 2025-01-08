@@ -18,33 +18,52 @@ const handleButtonClick = (action: string, payload?: any) => {
 };
 
 const handleDate = (modelData: Date[] | null) => {
-  console.log('Date changed:', modelData);
+  console.log('Vybrany termin:', modelData);
 };
 </script>
 
 <template>
-  <h1>Date picker</h1>
-  <!-- <p>https://vue3datepicker.com/installation/</p> -->
-  <VueDatePicker
-    v-model="dateStore.date"
-    ref="datepicker"
-    :enable-time-picker="false"
-    :min-date="dateStore.minDate"
-    :range="dateStore.range"
-    :locale="dateStore.i18n.locale"
-    :cancelText="dateStore.i18n.cancelText"
-    :selectText="dateStore.i18n.selectText"
-    multi-calendars
-    @update:model-value="handleDate"
-  />
-  <div>
-    <v-btn
-      v-for="button in dateStore.buttons"
-      :key="button.label"
-      @click="handleButtonClick(button.action, button.payload)"
+  <div class="flex flex-col items-center justify-center p-4">
+    <div
+      class="flex flex-col md:flex-row justify-center items-start gap-20 w-full max-w-4xl"
     >
-      {{ button.label.toUpperCase() }}
-    </v-btn>
+      <div
+        class="datePicker bg-white shadow-lg rounded-lg p-4 flex-1 w-full max-w-md"
+      >
+        <VueDatePicker
+          v-model="dateStore.date"
+          ref="datepicker"
+          :enable-time-picker="false"
+          :min-date="dateStore.minDate"
+          :range="dateStore.range"
+          :locale="dateStore.i18n.locale"
+          :cancelText="dateStore.i18n.cancelText"
+          :selectText="dateStore.i18n.selectText"
+          multi-calendars
+          @update:model-value="handleDate"
+          class="w-full"
+        />
+      </div>
+
+      <!-- Popular Dates Section -->
+      <div
+        class="popularDates bg-gray-50 shadow-lg rounded-lg p-4 flex-1 w-full max-w-md"
+      >
+        <h2 class="text-lg font-semibold text-gray-700 mb-4">
+          Oblíbené termíny
+        </h2>
+        <div class="space-y-2">
+          <v-btn
+            v-for="button in dateStore.buttons"
+            :key="button.label"
+            @click="handleButtonClick(button.action, button.payload)"
+            class="block w-full bg-blue-100 text-blue-800 font-medium text-sm py-2 rounded hover:bg-blue-200 transition"
+          >
+            {{ button.label.toUpperCase() }}
+          </v-btn>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
