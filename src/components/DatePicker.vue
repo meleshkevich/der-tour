@@ -23,6 +23,7 @@ const handleButtonClick = (action: ActionKey, payload?: any) => {
   } else {
     console.warn(`Action "${action}" is not valid in dateStore.`);
   }
+  if (datepicker) datepicker.value?.openMenu();
 };
 
 const handleDate = (modelData: Date[] | null) => {
@@ -31,13 +32,11 @@ const handleDate = (modelData: Date[] | null) => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center p-4">
+  <div class="flex flex-col items-center justify-center p-2">
     <div
       class="flex flex-col md:flex-row justify-center items-start gap-20 w-full max-w-4xl"
     >
-      <div
-        class="datePicker bg-white shadow-lg rounded-lg p-4 flex-1 w-full max-w-md"
-      >
+      <div class="datePicker bg-white shadow-lg rounded-lg p-4 flex-2 max-w-md">
         <VueDatePicker
           v-model="dateStore.date"
           ref="datepicker"
@@ -61,16 +60,16 @@ const handleDate = (modelData: Date[] | null) => {
           Oblíbené termíny
         </h2>
         <div class="space-y-2">
-          <v-btn
+          <button
             v-for="button in dateStore.buttons"
             :key="button.label"
             @click="
               handleButtonClick(button.action as ActionKey, button.payload)
             "
-            class="block w-full bg-blue-100 text-blue-800 font-medium text-sm py-2 rounded hover:bg-blue-200 transition"
+            class="block w-full p-4 bg-blue-400 hover:bg-blue-600 text-white font-semibold text-sm py-2 rounded-lg shadow-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2"
           >
             {{ button.label.toUpperCase() }}
-          </v-btn>
+          </button>
         </div>
       </div>
     </div>
