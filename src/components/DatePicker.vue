@@ -8,13 +8,21 @@ import '@vuepic/vue-datepicker/dist/main.css';
 const dateStore = useDateStore();
 const datepicker = ref<DatePickerInstance>(null);
 
-const handleButtonClick = (action: string, payload?: any) => {
+type ActionKey =
+  | 'updateI18n'
+  | 'resetI18n'
+  | 'updateDate'
+  | 'resetDate'
+  | 'updateMinDate'
+  | 'updateRange'
+  | 'setSelectedRange';
+
+const handleButtonClick = (action: ActionKey, payload?: any) => {
   if (typeof dateStore[action] === 'function') {
-    dateStore[action](payload);
+    (dateStore[action] as (payload?: any) => void)(payload);
   } else {
-    console.warn(`Action "${action}" not found in dateStore.`);
+    console.warn(`Action "${action}" is not valid in dateStore.`);
   }
-  if (datepicker) datepicker.value?.openMenu();
 };
 
 const handleDate = (modelData: Date[] | null) => {
@@ -56,7 +64,9 @@ const handleDate = (modelData: Date[] | null) => {
           <v-btn
             v-for="button in dateStore.buttons"
             :key="button.label"
-            @click="handleButtonClick(button.action, button.payload)"
+            @click="
+              handleButtonClick(button.action as ActionKey, button.payload)
+            "
             class="block w-full bg-blue-100 text-blue-800 font-medium text-sm py-2 rounded hover:bg-blue-200 transition"
           >
             {{ button.label.toUpperCase() }}

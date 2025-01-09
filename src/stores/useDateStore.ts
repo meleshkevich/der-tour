@@ -2,15 +2,16 @@ import { defineStore } from 'pinia';
 
 const startDate = new Date();
 const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
-const locale = 'cs-CS',
-  cancelText = 'Zavřít',
-  selectText = 'Vybrat';
 
 export const useDateStore = defineStore('dateStore', {
   state: () => ({
     //DatePicker configs
-    i18n: { locale, cancelText, selectText },
-    date: [startDate, endDate],
+    i18n: {
+      locale: 'cs-CS',
+      cancelText: 'Zavřít',
+      selectText: 'Vybrat',
+    },
+    date: [startDate, endDate] as Date[],
     minDate: new Date(),
     range: { maxRange: 30 },
 
@@ -44,7 +45,7 @@ export const useDateStore = defineStore('dateStore', {
           minDate: new Date(2025, 5, 1),
         },
       },
-    ],
+    ] as Array<{ label: string; action: string; payload: any }>,
   }),
   actions: {
     updateI18n(newI18n: {
