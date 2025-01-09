@@ -7,7 +7,7 @@ export const useDateStore = defineStore('dateStore', {
   state: () => ({
     //DatePicker configs
     i18n: {
-      locale: 'cs-CS',
+      locale: 'cs-CZ',
       cancelText: 'Zavřít',
       selectText: 'Vybrat',
     },
